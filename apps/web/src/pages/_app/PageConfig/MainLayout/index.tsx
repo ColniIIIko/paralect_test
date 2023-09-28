@@ -1,8 +1,8 @@
-import { FC, ReactElement } from 'react';
 import { AppShell } from '@mantine/core';
+import { FC, ReactElement } from 'react';
 
-import Header from './Header';
 import Footer from './Footer';
+import Header from './Header';
 
 interface MainLayoutProps {
   children: ReactElement;

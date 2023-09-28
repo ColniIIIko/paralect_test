@@ -1,17 +1,14 @@
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Head from 'next/head';
-import { NextPage } from 'next';
-import { TextInput, PasswordInput, Button, Group, Stack, Title, Alert } from '@mantine/core';
+import { Alert, Button, Group, PasswordInput, Stack, TextInput, Title } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
+import { NextPage } from 'next';
+import Head from 'next/head';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { GoogleIcon } from 'public/icons';
-
-import config from 'config';
+import { Link } from 'components';
 import { RoutePath } from 'routes';
 import { handleError } from 'utils';
-import { Link } from 'components';
 
 import { accountApi, accountConstants } from 'resources/account';
 
@@ -24,7 +21,10 @@ type SignInParams = z.infer<typeof schema> & { credentials?: string };
 
 const SignIn: NextPage = () => {
   const {
-    register, handleSubmit, formState: { errors }, setError,
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
   } = useForm<SignInParams>({ resolver: zodResolver(schema) });
 
   const { mutate: signIn, isLoading: isSignInLoading } = accountApi.useSignIn<SignInParams>();
@@ -38,70 +38,78 @@ const SignIn: NextPage = () => {
       <Head>
         <title>Sign in</title>
       </Head>
-      <Stack sx={{ width: '408px' }} spacing={20}>
-        <Stack spacing={34}>
-          <Title order={1}>Sign In</Title>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={20}>
-              <TextInput
-                {...register('email')}
-                label="Email Address"
-                placeholder="Email Address"
-                error={errors.email?.message}
-              />
-              <PasswordInput
-                {...register('password')}
-                label="Password"
-                placeholder="Enter password"
-                error={errors.password?.message}
-              />
-              {errors!.credentials && (
-                <Alert icon={<IconAlertCircle size={16} />} color="red">
-                  {errors.credentials.message}
-                </Alert>
-              )}
-              <Link
-                href={RoutePath.ForgotPassword}
-                type="router"
-                underline={false}
-                size="md"
-                align="center"
+      <Stack
+        sx={{ width: '408px' }}
+        spacing="xl"
+      >
+        <Title
+          order={1}
+          size="2.25rem"
+        >
+          Sign In
+        </Title>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing="md">
+            <TextInput
+              radius="md"
+              size="sm"
+              {...register('email')}
+              label="Email Address"
+              placeholder="Email Address"
+              error={errors.email?.message}
+              styles={{
+                input: { height: 40 },
+              }}
+            />
+            <PasswordInput
+              radius="md"
+              size="sm"
+              {...register('password')}
+              label="Password"
+              placeholder="Enter password"
+              error={errors.password?.message}
+              styles={{
+                innerInput: { height: 40 },
+                input: { height: 40 },
+              }}
+            />
+            {errors!.credentials && (
+              <Alert
+                icon={<IconAlertCircle size={16} />}
+                color="red"
               >
-                Forgot password?
-              </Link>
-            </Stack>
-            <Button
-              loading={isSignInLoading}
-              type="submit"
-              fullWidth
-              mt={34}
-            >
-              Sign in
-            </Button>
-          </form>
-        </Stack>
-
-        <Stack spacing={34}>
+                {errors.credentials.message}
+              </Alert>
+            )}
+          </Stack>
           <Button
-            component="a"
-            leftIcon={<GoogleIcon />}
-            href={`${config.API_URL}/account/sign-in/google/auth`}
-            variant="outline"
+            loading={isSignInLoading}
+            type="submit"
+            fullWidth
+            mt="xl"
+            radius="md"
+            color="blue.5"
+            size="xs"
+            h="42px"
           >
-            Continue with Google
+            Sign in
           </Button>
-          <Group sx={{ fontSize: '16px', justifyContent: 'center' }} spacing={12}>
-            Don’t have an account?
-            <Link
-              type="router"
-              href={RoutePath.SignUp}
-              underline={false}
-              inherit
-            >
-              Sign up
-            </Link>
-          </Group>
-        </Stack>
+        </form>
+
+        <Group
+          sx={{ fontSize: '16px', justifyContent: 'center' }}
+          spacing={12}
+        >
+          Don’t have an account?
+          <Link
+            type="router"
+            href={RoutePath.SignUp}
+            underline={false}
+            inherit
+          >
+            Sign up
+          </Link>
+        </Group>
       </Stack>
     </>
   );

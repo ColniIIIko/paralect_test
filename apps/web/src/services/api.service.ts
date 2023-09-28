@@ -29,11 +29,7 @@ export class ApiError extends Error {
     return this.stack;
   }
 }
-const throwApiError = ({
-  status,
-  statusText,
-  data,
-}: any) => {
+const throwApiError = ({ status, statusText, data }: any) => {
   console.error(`API Error: ${status} ${statusText}`, data); //eslint-disable-line
   throw new ApiError(data, status, statusText);
 };
