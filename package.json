@@ -31,5 +31,8 @@
     "turbo-linux-arm64": "1.10.3",
     "turbo-windows-64": "1.10.3",
     "turbo-windows-arm64": "1.10.3"
+  },
+  "dependencies": {
+    "root": "3.2.0"
   }
 }
