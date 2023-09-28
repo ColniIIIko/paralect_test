@@ -1,51 +1,46 @@
-import { z } from 'zod';
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable max-len */
 import { zodResolver } from '@hookform/resolvers/zod';
-import Head from 'next/head';
+import { Button, Group, PasswordInput, Stack, Text, TextInput, Title } from '@mantine/core';
 import { NextPage } from 'next';
-import {
-  Button,
-  Stack,
-  TextInput,
-  PasswordInput,
-  Group,
-  Title,
-  Text,
-  Checkbox,
-  SimpleGrid,
-  Tooltip,
-} from '@mantine/core';
+import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { GoogleIcon } from 'public/icons';
-
+import { IconCircleCheck, IconCircleX } from '@tabler/icons-react';
+import { Link } from 'components';
 import config from 'config';
+import { accountApi, accountConstants } from 'resources/account';
 import { RoutePath } from 'routes';
 import { handleError } from 'utils';
-import { Link } from 'components';
-
-import { accountApi, accountConstants } from 'resources/account';
 
 const schema = z.object({
-  firstName: z.string().min(1, 'Please enter First name').max(100),
-  lastName: z.string().min(1, 'Please enter Last name').max(100),
   email: z.string().regex(accountConstants.emailRegex, 'Email format is incorrect.'),
-  password: z.string().regex(accountConstants.passwordRegex, 'The password must contain 6 or more characters with at least one letter (a-z) and one number (0-9).'),
+  password: z
+    .string()
+    .regex(
+      accountConstants.passwordRegex,
+      'The password must contain 8 or more characters with at least one lower case letter (a-z), capital letter (A-Z) and one number (0-9).',
+    ),
 });
 
 type SignUpParams = z.infer<typeof schema>;
 
 const passwordRules = [
   {
-    title: 'Be 6-50 characters',
+    title: 'Must be at least 8 characters',
+    test: (password: string) => password.length >= 8,
     done: false,
   },
   {
-    title: 'Have at least one letter',
+    title: 'Must contain at least 1 number',
+    test: (password: string) => /[0-9]/.test(password),
     done: false,
   },
   {
-    title: 'Have at least one number',
+    title: 'Must contain lower case and capital letters',
+    test: (password: string) => /(?=.*[a-z])(?=.*[A-Z])/.test(password),
     done: false,
   },
 ];
@@ -56,7 +51,6 @@ const SignUp: NextPage = () => {
   const [signupToken, setSignupToken] = useState();
 
   const [passwordRulesData, setPasswordRulesData] = useState(passwordRules);
-  const [opened, setOpened] = useState(false);
 
   const {
     register,
@@ -73,9 +67,9 @@ const SignUp: NextPage = () => {
   useEffect(() => {
     const updatedPasswordRulesData = [...passwordRules];
 
-    updatedPasswordRulesData[0].done = passwordValue.length >= 6 && passwordValue.length <= 50;
-    updatedPasswordRulesData[1].done = /[a-zA-Z]/.test(passwordValue);
-    updatedPasswordRulesData[2].done = /\d/.test(passwordValue);
+    updatedPasswordRulesData[0].done = updatedPasswordRulesData[0].test(passwordValue);
+    updatedPasswordRulesData[1].done = updatedPasswordRulesData[1].test(passwordValue);
+    updatedPasswordRulesData[2].done = updatedPasswordRulesData[2].test(passwordValue);
 
     setPasswordRulesData(updatedPasswordRulesData);
   }, [passwordValue]);
@@ -85,7 +79,6 @@ const SignUp: NextPage = () => {
   const onSubmit = (data: SignUpParams) => signUp(data, {
     onSuccess: (response: any) => {
       if (response.signupToken) setSignupToken(response.signupToken);
-
       setRegistered(true);
       setEmail(data.email);
     },
@@ -93,21 +86,35 @@ const SignUp: NextPage = () => {
   });
 
   const label = (
-    <SimpleGrid
-      cols={1}
-      spacing="xs"
-      p={4}
-    >
-      <Text>Password must:</Text>
+    <Stack spacing={8}>
       {passwordRulesData.map((ruleData) => (
-        <Checkbox
-          styles={{ label: { color: 'white' } }}
+        <Group
+          spacing={12}
           key={ruleData.title}
-          checked={ruleData.done}
-          label={ruleData.title}
-        />
+        >
+          {ruleData.done ? (
+            <IconCircleCheck
+              height={20}
+              width={20}
+              color="#2b77eb"
+            />
+          ) : (
+            <IconCircleX
+              height={20}
+              width={20}
+              color="#fa5252"
+            />
+          )}
+          <Text
+            size="sm"
+            color="black.2"
+            weight={400}
+          >
+            {ruleData.title}
+          </Text>
+        </Group>
       ))}
-    </SimpleGrid>
+    </Stack>
   );
 
   if (registered) {
@@ -118,17 +125,20 @@ const SignUp: NextPage = () => {
         </Head>
         <Stack sx={{ width: '450px' }}>
           <Title order={2}>Thanks!</Title>
-          <Text size="md" sx={({ colors }) => ({ color: colors.gray[5] })}>
-            Please follow the instructions from the email to complete a sign up process.
-            We sent an email with a confirmation link to
-            {' '}
-            <b>{email}</b>
+          <Text
+            size="md"
+            sx={({ colors }) => ({ color: colors.gray[5] })}
+          >
+            Please follow the instructions from the email to complete a sign up process. We sent an email with a
+            confirmation link to <b>{email}</b>
           </Text>
           {signupToken && (
             <div>
-              You look like a cool developer.
-              {' '}
-              <Link size="sm" href={`${config.API_URL}/account/verify-email?token=${signupToken}`}>
+              You look like a cool developer.{' '}
+              <Link
+                size="sm"
+                href={`${config.API_URL}/account/verify-email?token=${signupToken}`}
+              >
                 Verify email
               </Link>
             </div>
@@ -141,79 +151,73 @@ const SignUp: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Sign up</title>
+        <title>Sign in</title>
       </Head>
-      <Stack sx={{ width: '408px' }} spacing={20}>
-        <Stack spacing={34}>
-          <Title order={1}>Sign Up</Title>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={20}>
-              <TextInput
-                {...register('firstName')}
-                label="First Name"
-                maxLength={100}
-                placeholder="First Name"
-                error={errors.firstName?.message}
-              />
-              <TextInput
-                {...register('lastName')}
-                label="Last Name"
-                maxLength={100}
-                placeholder="Last Name"
-                error={errors.lastName?.message}
-              />
-              <TextInput
-                {...register('email')}
-                label="Email Address"
-                placeholder="Email Address"
-                error={errors.email?.message}
-              />
-              <Tooltip
-                label={label}
-                withArrow
-                opened={opened}
-              >
-                <PasswordInput
-                  {...register('password')}
-                  label="Password"
-                  placeholder="Enter password"
-                  onFocus={() => setOpened(true)}
-                  onBlur={() => setOpened(false)}
-                  error={errors.password?.message}
-                />
-              </Tooltip>
-            </Stack>
-            <Button
-              type="submit"
-              loading={isSignUpLoading}
-              fullWidth
-              mt={34}
-            >
-              Sign Up
-            </Button>
-          </form>
-        </Stack>
-        <Stack spacing={34}>
+      <Stack
+        sx={{ width: '408px' }}
+        spacing="xl"
+      >
+        <Title
+          order={1}
+          size="2.25rem"
+        >
+          Sign In
+        </Title>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing="md">
+            <TextInput
+              radius="md"
+              size="sm"
+              {...register('email')}
+              label="Email Address"
+              placeholder="Email Address"
+              error={errors.email?.message}
+              styles={{
+                input: { height: 40 },
+              }}
+            />
+            <PasswordInput
+              radius="md"
+              size="sm"
+              {...register('password')}
+              label="Password"
+              placeholder="Enter password"
+              error={errors.password?.message}
+              styles={{
+                innerInput: { height: 40 },
+                input: { height: 40 },
+              }}
+            />
+            {label}
+          </Stack>
           <Button
-            component="a"
-            leftIcon={<GoogleIcon />}
-            href={`${config.API_URL}/account/sign-in/google/auth`}
-            variant="outline"
+            loading={isSignUpLoading}
+            type="submit"
+            fullWidth
+            mt="xl"
+            radius="md"
+            color="blue.5"
+            size="xs"
+            h="42px"
           >
-            Continue with Google
+            Create Account
           </Button>
-          <Group sx={{ fontSize: '16px', justifyContent: 'center' }} spacing={12}>
-            Have an account?
-            <Link
-              type="router"
-              href={RoutePath.SignIn}
-              inherit
-              underline={false}
-            >
-              Sign In
-            </Link>
-          </Group>
-        </Stack>
+        </form>
+
+        <Group
+          sx={{ fontSize: '16px', justifyContent: 'center' }}
+          spacing={12}
+        >
+          Have an account?
+          <Link
+            type="router"
+            href={RoutePath.SignIn}
+            underline={false}
+            inherit
+          >
+            Sign In
+          </Link>
+        </Group>
       </Stack>
     </>
   );
