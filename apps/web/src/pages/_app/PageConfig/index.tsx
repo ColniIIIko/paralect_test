@@ -31,7 +31,7 @@ const PageConfig: FC<PageConfigProps> = ({ children }) => {
   const { route, push } = useRouter();
   const { data: account, isLoading: isAccountLoading } = accountApi.useGet({
     onSettled: () => {
-      if (!environmentConfig?.mixpanel?.apiKey) return null;
+      if (!environmentConfig?.MIXPANEL_API_KEY) return null;
 
       analyticsService.init();
 
@@ -57,9 +57,7 @@ const PageConfig: FC<PageConfigProps> = ({ children }) => {
 
   return (
     <Scope>
-      <Layout>
-        {children}
-      </Layout>
+      <Layout>{children}</Layout>
     </Scope>
   );
 };

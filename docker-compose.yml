@@ -3,6 +3,7 @@ services:
   mongo:
     container_name: test_task-mongo
     image: mongo:4.4
+    privileged: true
     entrypoint:
       - bash
       - -c
@@ -32,6 +33,7 @@ services:
   mongo-replicator:
     container_name: test_task-mongo-replicator
     image: mongo:4.4
+    privileged: true
     entrypoint:
       - bash
       - -c
