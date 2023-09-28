@@ -91,6 +91,7 @@ const SignUp: NextPage = () => {
         <Group
           spacing={12}
           key={ruleData.title}
+          noWrap
         >
           {ruleData.done ? (
             <IconCircleCheck
