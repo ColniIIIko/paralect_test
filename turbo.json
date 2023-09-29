@@ -7,19 +7,13 @@
       "dependsOn": ["^build"],
       "env": ["NEXT_PUBLIC_API_HOST"]
     },
-    "mailer#build": {
-      "cache": false
-    },
     "api#migrate-dev": {
-      "dependsOn": ["mailer#build"],
       "cache": false
     },
     "api#schedule-dev": {
-      "dependsOn": ["mailer#build"],
       "cache": false
     },
     "dev": {
-      "dependsOn": ["mailer#build"],
       "cache": false
     },
     "development": {
