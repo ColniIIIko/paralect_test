@@ -8,7 +8,6 @@ const schema = z
     passwordHash: z.string().nullable().optional(),
     signupToken: z.string().nullable().optional(),
     resetPasswordToken: z.string().nullable().optional(),
-    isEmailVerified: z.boolean().default(false),
     avatarUrl: z.string().nullable().optional(),
     oauth: z
       .object({

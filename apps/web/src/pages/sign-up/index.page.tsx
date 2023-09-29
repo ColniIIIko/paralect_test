@@ -10,7 +10,6 @@ import { z } from 'zod';
 
 import { IconCircleCheck, IconCircleX } from '@tabler/icons-react';
 import { Link } from 'components';
-import config from 'config';
 import { accountApi, accountConstants } from 'resources/account';
 import { RoutePath } from 'routes';
 import { handleError } from 'utils';
@@ -46,10 +45,6 @@ const passwordRules = [
 ];
 
 const SignUp: NextPage = () => {
-  const [email, setEmail] = useState('');
-  const [registered, setRegistered] = useState(false);
-  const [signupToken, setSignupToken] = useState();
-
   const [passwordRulesData, setPasswordRulesData] = useState(passwordRules);
 
   const {
@@ -76,12 +71,7 @@ const SignUp: NextPage = () => {
 
   const { mutate: signUp, isLoading: isSignUpLoading } = accountApi.useSignUp<SignUpParams>();
 
-  const onSubmit = (data: SignUpParams) => signUp(data, {
-    onSuccess: (response: any) => {
-      if (response.signupToken) setSignupToken(response.signupToken);
-      setRegistered(true);
-      setEmail(data.email);
-    },
+  const onSubmit = async (data: SignUpParams) => signUp(data, {
     onError: (e) => handleError(e, setError),
   });
 
@@ -119,41 +109,10 @@ const SignUp: NextPage = () => {
     </Stack>
   );
 
-  if (registered) {
-    return (
-      <>
-        <Head>
-          <title>Sign up</title>
-        </Head>
-        <Stack sx={{ width: '450px' }}>
-          <Title order={2}>Thanks!</Title>
-          <Text
-            size="md"
-            sx={({ colors }) => ({ color: colors.gray[5] })}
-          >
-            Please follow the instructions from the email to complete a sign up process. We sent an email with a
-            confirmation link to <b>{email}</b>
-          </Text>
-          {signupToken && (
-            <div>
-              You look like a cool developer.{' '}
-              <Link
-                size="sm"
-                href={`${config.API_URL}/account/verify-email?token=${signupToken}`}
-              >
-                Verify email
-              </Link>
-            </div>
-          )}
-        </Stack>
-      </>
-    );
-  }
-
   return (
     <>
       <Head>
-        <title>Sign in</title>
+        <title>Sign up</title>
       </Head>
       <Stack
         sx={{ width: '408px' }}
@@ -163,7 +122,7 @@ const SignUp: NextPage = () => {
           order={1}
           size="2.25rem"
         >
-          Sign In
+          Sign up
         </Title>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing="md">

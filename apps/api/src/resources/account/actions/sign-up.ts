@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
-import config from 'config';
 import { validateMiddleware } from 'middlewares';
 import { User, userService } from 'resources/user';
 import { AppKoaContext, AppRouter, Next } from 'types';
 import { securityUtil } from 'utils';
 
 import { emailRegex, passwordRegex } from 'resources/account/account.constants';
+import { authService } from 'services';
 
 const schema = z.object({
   email: z.string().regex(emailRegex, 'Email format is incorrect.'),
@@ -37,16 +37,20 @@ async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
 async function handler(ctx: AppKoaContext<ValidatedData>) {
   const { email, password } = ctx.validatedData;
 
-  const [hash, signupToken] = await Promise.all([securityUtil.getHash(password), securityUtil.generateSecureToken()]);
+  //const [hash] = await Promise.all([securityUtil.getHash(password), authService.setTokens(ctx, ));
 
-  await userService.insertOne({
+  const hash = await securityUtil.getHash(password);
+
+  const user = await userService.insertOne({
     email,
     passwordHash: hash.toString(),
-    isEmailVerified: false,
-    signupToken,
   });
 
-  ctx.body = config.IS_DEV ? { signupToken } : {};
+  await authService.setTokens(ctx, user._id);
+
+  ctx.body = {
+    credential: 'Sign up successful',
+  };
 }
 
 export default (router: AppRouter) => {

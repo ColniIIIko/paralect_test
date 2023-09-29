@@ -26,13 +26,16 @@ export function useSignOut() {
 }
 
 export function useSignUp<T>() {
-  const signUp = (data: T) => apiService.post('/account/sign-up', data);
+  const signUp = async (data: T) => {
+    await apiService.post('/account/sign-up', data);
+    return apiService.post('/account/sign-in', data);
+  };
 
-  interface SignUpResponse {
-    signupToken: string;
-  }
-
-  return useMutation<SignUpResponse, unknown, T>(signUp);
+  return useMutation<userTypes.User, unknown, T>(signUp, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(['account'], data);
+    },
+  });
 }
 
 export function useForgotPassword<T>() {
@@ -53,7 +56,7 @@ export function useResendEmail<T>() {
   return useMutation<{}, unknown, T>(resendEmail);
 }
 
-export function useGet(options? : {}) {
+export function useGet(options?: {}) {
   const get = () => apiService.get('/account');
 
   return useQuery<userTypes.User>(['account'], get, options);
