@@ -7,6 +7,7 @@ const shipTheme: MantineThemeOverride = {
     fontFamily: 'Inter, sans-serif',
     fontWeight: 700,
   },
+  black: '#201f22',
   colors: {
     gray: [
       '#fcfcfc',
@@ -46,7 +47,7 @@ const shipTheme: MantineThemeOverride = {
     ],
   },
   lineHeight: 1.45,
-  primaryColor: 'blue',
+  primaryColor: 'black',
   primaryShade: 6,
   fontSizes: {
     xxl: '2.25rem',

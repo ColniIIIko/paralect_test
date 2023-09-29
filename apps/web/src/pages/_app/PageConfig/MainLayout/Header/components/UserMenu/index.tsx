@@ -1,44 +1,37 @@
-import Link from 'next/link';
-import { memo, FC } from 'react';
-import { Menu } from '@mantine/core';
-import { IconUserCircle, IconLogout } from '@tabler/icons-react';
+import { Box, Group, Image } from '@mantine/core';
+import { FC, memo } from 'react';
 
-import { RoutePath } from 'routes';
 import { accountApi } from 'resources/account';
-
-import MenuToggle from '../MenuToggle';
+import { useStyles } from './styles';
 
 const UserMenu: FC = () => {
   const { mutate: signOut } = accountApi.useSignOut();
+  const { data: user } = accountApi.useGet();
+
+  const { classes } = useStyles({ cartSize: user?.cartSize || 0 });
 
   return (
-    <Menu>
-      <Menu.Target>
-        <MenuToggle />
-      </Menu.Target>
-      <Menu.Dropdown
-        sx={(theme) => ({
-          left: 'unset !important',
-          right: '30px !important',
-          boxShadow: 'unset !important',
-          border: `1px solid ${theme.colors.gray[4]}`,
-        })}
+    <Group spacing="xl">
+      <Box
+        className={classes.cart}
+        h={40}
+        w={40}
       >
-        <Menu.Item
-          component={Link}
-          href={RoutePath.Profile}
-          icon={<IconUserCircle size={16} />}
-        >
-          Profile settings
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => signOut()}
-          icon={<IconLogout size={16} />}
-        >
-          Log out
-        </Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
+        <Image
+          className={classes.cartImage}
+          src="../icons/cart.svg"
+          alt="cart"
+          width={34}
+        />
+      </Box>
+      <Image
+        src="../icons/logout.svg"
+        alt="logout"
+        onClick={() => signOut()}
+        height={40}
+        width={40}
+      />
+    </Group>
   );
 };
 

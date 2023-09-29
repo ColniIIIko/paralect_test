@@ -1,41 +1,45 @@
-import { memo, FC } from 'react';
-import { RoutePath } from 'routes';
-import {
-  Header as LayoutHeader,
-  Container,
-} from '@mantine/core';
-import { Link } from 'components';
-import { LogoImage } from 'public/images';
+import { Container, Header as LayoutHeader } from '@mantine/core';
+import { Link, Logo } from 'components';
+import { FC, memo } from 'react';
 
 import { accountApi } from 'resources/account';
-
+import { RoutePath } from 'routes';
+import NavTabs from './components/NavTabs/NavTabs';
 import UserMenu from './components/UserMenu';
-import ShadowLoginBanner from './components/ShadowLoginBanner';
+import { useStyles } from './styles';
+
+const navTabs = [
+  { title: 'Marketplace', route: RoutePath.Home },
+  { title: 'Your Products', route: RoutePath.MyProducts },
+];
 
 const Header: FC = () => {
   const { data: account } = accountApi.useGet();
+  const { classes } = useStyles();
 
   if (!account) return null;
 
   return (
-    <LayoutHeader height="72px">
-      {account.isShadow && <ShadowLoginBanner email={account.email} />}
+    <LayoutHeader
+      height={104}
+      sx={(theme) => ({
+        borderBottom: 'none',
+        backgroundColor: theme.colors.gray[0],
+      })}
+    >
       <Container
-        sx={(theme) => ({
-          minHeight: '72px',
-          padding: '0 32px',
-          display: 'flex',
-          flex: '1 1 auto',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          backgroundColor: theme.white,
-          borderBottom: `1px solid ${theme.colors.gray[4]}`,
-        })}
+        className={classes.container}
         fluid
       >
-        <Link type="router" href={RoutePath.Home}>
-          <LogoImage />
+        <Link
+          type="router"
+          href={RoutePath.Home}
+          underline={false}
+          disabled
+        >
+          <Logo />
         </Link>
+        <NavTabs nav={navTabs} />
         <UserMenu />
       </Container>
     </LayoutHeader>
