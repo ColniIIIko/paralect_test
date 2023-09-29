@@ -89,9 +89,10 @@ const SignUp: NextPage = () => {
     <Stack spacing={8}>
       {passwordRulesData.map((ruleData) => (
         <Group
-          spacing={12}
           key={ruleData.title}
-          noWrap
+          display="grid"
+          sx={{ gridTemplateColumns: '20px 1fr' }}
+          spacing={12}
         >
           {ruleData.done ? (
             <IconCircleCheck
