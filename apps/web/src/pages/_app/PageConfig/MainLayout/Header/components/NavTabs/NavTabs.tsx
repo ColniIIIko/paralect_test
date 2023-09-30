@@ -19,6 +19,7 @@ const NavTabs: FC<NavTabsProps> = ({ nav }: NavTabsProps) => {
       type="router"
       href={navItem.route}
       underline={false}
+      key={navItem.title}
     >
       <Button
         className={clsx({
