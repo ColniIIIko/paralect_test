@@ -1,25 +1,25 @@
-import { ChangeEvent, useCallback, useLayoutEffect, useState } from 'react';
-import Head from 'next/head';
-import { NextPage } from 'next';
 import {
-  Select,
-  TextInput,
-  Group,
-  Title,
-  Stack,
-  Skeleton,
-  Text,
   Container,
-  UnstyledButton,
+  Group,
+  Select,
   SelectItem,
+  Skeleton,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+  UnstyledButton,
 } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconSearch, IconX, IconSelector } from '@tabler/icons-react';
+import { IconSearch, IconSelector, IconX } from '@tabler/icons-react';
 import { ColumnDef, RowSelectionState, SortingState } from '@tanstack/react-table';
+import { NextPage } from 'next';
+import Head from 'next/head';
+import { ChangeEvent, useCallback, useLayoutEffect, useState } from 'react';
 
 import { Table } from 'components';
 
-import { userTypes, userApi } from 'resources/user';
+import { userApi, userTypes } from 'resources/user';
 
 import { DatePickerInput, DatesRangeValue } from '@mantine/dates';
 
@@ -119,11 +119,14 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Home</title>
+        <title>Marketplace</title>
       </Head>
       <Stack spacing="lg">
         <Title order={2}>Users</Title>
-        <Group noWrap position="apart">
+        <Group
+          noWrap
+          position="apart"
+        >
           <Group noWrap>
             <Skeleton
               height={42}
@@ -138,14 +141,16 @@ const Home: NextPage = () => {
                 onChange={handleSearch}
                 placeholder="Search by name or email"
                 icon={<IconSearch size={16} />}
-                rightSection={search ? (
-                  <UnstyledButton
-                    onClick={() => setSearch('')}
-                    sx={{ display: 'flex', alignItems: 'center' }}
-                  >
-                    <IconX color="gray" />
-                  </UnstyledButton>
-                ) : null}
+                rightSection={
+                  search ? (
+                    <UnstyledButton
+                      onClick={() => setSearch('')}
+                      sx={{ display: 'flex', alignItems: 'center' }}
+                    >
+                      <IconX color="gray" />
+                    </UnstyledButton>
+                  ) : null
+                }
                 sx={{ width: '350px' }}
               />
             </Skeleton>
@@ -189,7 +194,6 @@ const Home: NextPage = () => {
               />
             </Skeleton>
           </Group>
-
         </Group>
         {isListLoading && (
           <>
@@ -217,7 +221,10 @@ const Home: NextPage = () => {
           />
         ) : (
           <Container p={75}>
-            <Text size="xl" color="grey">
+            <Text
+              size="xl"
+              color="grey"
+            >
               No results found, try to adjust your search.
             </Text>
           </Container>
