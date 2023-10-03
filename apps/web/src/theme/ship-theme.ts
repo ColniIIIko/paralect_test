@@ -171,13 +171,6 @@ const shipTheme: MantineThemeOverride = {
     Select: {
       defaultProps: { size: 'md' },
     },
-    Image: {
-      styles: () => ({
-        image: {
-          objectPosition: 'left !important',
-        },
-      }),
-    },
   },
 };
 

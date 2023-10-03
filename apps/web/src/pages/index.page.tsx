@@ -1,3 +1,3 @@
-import Marketplace from './marketplace';
+import Marketplace from './marketplace/index.page';
 
 export default Marketplace;
