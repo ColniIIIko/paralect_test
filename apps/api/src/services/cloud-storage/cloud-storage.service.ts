@@ -1,107 +1,51 @@
-import { S3Client, GetObjectCommand, CopyObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { Upload } from '@aws-sdk/lib-storage';
-
-import type { File } from '@koa/multer';
-import type {
-  GetObjectOutput,
-  CopyObjectOutput,
-  DeleteObjectOutput,
-  CompleteMultipartUploadOutput,
-} from '@aws-sdk/client-s3';
-
+/* eslint-disable import/no-extraneous-dependencies */
+// Import the functions you need from the SDKs you need
+import { File } from '@koa/multer';
 import config from 'config';
+import { initializeApp } from 'firebase/app';
+//import { getStorage } from 'firebase-admin/storage';
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-import * as helpers from './cloud-storage.helper';
-
-const client = new S3Client({
-  forcePathStyle: false, // Configures to use subdomain/virtual calling format.
-  region: 'us-east-1', // To successfully create a new bucket, this SDK requires the region to be us-east-1
-  endpoint: config.CLOUD_STORAGE_ENDPOINT,
-  credentials: {
-    accessKeyId: config.CLOUD_STORAGE_ACCESS_KEY_ID ?? '',
-    secretAccessKey: config.CLOUD_STORAGE_SECRET_ACCESS_KEY ?? '',
-  },
-});
-const Bucket = config.CLOUD_STORAGE_BUCKET;
-
-const upload = (fileName: string, file: File): Promise<CompleteMultipartUploadOutput> => {
-  const params = {
-    Bucket,
-    ContentType: file.mimetype,
-    Body: file.buffer,
-    Key: fileName,
-    ACL: 'private',
-  };
-
-  const multipartUpload = new Upload({
-    client,
-    params,
-  });
-
-  return multipartUpload.done();
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: config.FIREBASE_KEY,
+  authDomain: config.FIREBASE_AUTH_DOMAIN,
+  projectId: config.FIREBASE_PROJECT_ID,
+  storageBucket: config.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: config.FIREBASE_SENDER_ID,
+  appId: config.FIREBASE_APP_ID,
 };
 
-const uploadPublic = (fileName: string, file: File): Promise<CompleteMultipartUploadOutput> => {
-  const params = {
-    Bucket,
-    ContentType: file.mimetype,
-    Body: file.buffer,
-    Key: fileName,
-    ACL: 'public-read',
-  };
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
-  const multipartUpload = new Upload({
-    client,
-    params,
-  });
-
-  return multipartUpload.done();
+const upload = async (fileName: string, file: File) => {
+  const fileRef = ref(storage, fileName);
+  const res = await uploadBytes(fileRef, file.buffer);
+  return res.metadata.fullPath;
 };
 
-const getSignedDownloadUrl = (fileName: string): Promise<string> => {
-  const command = new GetObjectCommand({
-    Bucket,
-    Key: fileName,
-  });
-
-  return getSignedUrl(client, command, { expiresIn: 1800 });
+const remove = async (fileName: string) => {
+  const fileRef = ref(storage, fileName);
+  deleteObject(fileRef);
 };
 
-const getObject = (fileName: string): Promise<GetObjectOutput> => {
-  const command = new GetObjectCommand({
-    Bucket,
-    Key: fileName,
-  });
-
-  return client.send(command);
+const checkIfExists = async (fileName: string) => {
+  const fileRef = ref(storage, fileName);
+  try {
+    await getDownloadURL(fileRef);
+    return true;
+  } catch {
+    return false;
+  }
 };
 
-const copyObject = (filePath: string, copyFilePath: string): Promise<CopyObjectOutput> => {
-  const command = new CopyObjectCommand({
-    Bucket,
-    CopySource: encodeURI(`${Bucket}/${copyFilePath}`),
-    Key: filePath,
-  });
-
-  return client.send(command);
+const download = async (fileName: string) => {
+  const fileRef = ref(storage, fileName);
+  return getDownloadURL(fileRef);
 };
 
-const deleteObject = (fileName: string): Promise<DeleteObjectOutput> => {
-  const command = new DeleteObjectCommand( {
-    Bucket,
-    Key: fileName,
-  });
-
-  return client.send(command);
-};
-
-export default {
-  helpers,
-  upload,
-  uploadPublic,
-  getObject,
-  copyObject,
-  deleteObject,
-  getSignedDownloadUrl,
-};
+export default { remove, upload, download, checkIfExists };
