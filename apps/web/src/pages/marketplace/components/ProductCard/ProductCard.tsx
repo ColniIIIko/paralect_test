@@ -5,7 +5,7 @@ import { useStyles } from './styles';
 
 interface ProductCardProps extends Omit<productTypes.Product, '_id' | 'createdBy' | 'createdOn'> {}
 
-const ProductCard: FC<ProductCardProps> = ({ title, price, imgURL }) => {
+const ProductCard: FC<ProductCardProps> = ({ title, price, imgUrl }) => {
   const { classes } = useStyles();
   return (
     <Box
@@ -16,8 +16,9 @@ const ProductCard: FC<ProductCardProps> = ({ title, price, imgURL }) => {
       maw={308}
     >
       <Image
-        w="100%"
-        src={imgURL}
+        width={306}
+        height={230}
+        src={imgUrl}
         alt={title}
         classNames={{
           image: classes.image,
@@ -41,6 +42,7 @@ const ProductCard: FC<ProductCardProps> = ({ title, price, imgURL }) => {
           radius={8}
           bg="blue.5"
           c="white"
+          className={classes.button}
           fullWidth
         >
           Add to Cart

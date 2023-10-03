@@ -38,7 +38,7 @@ const shipTheme: MantineThemeOverride = {
       '#d1e3ff',
       '#a2c4f9',
       '#71a4f3',
-      '#5692ef',
+      '#5e96fc',
       '#2b77eb',
       '#235fbc',
       '#075dd1',
@@ -90,6 +90,10 @@ const shipTheme: MantineThemeOverride = {
     Button: {
       defaultProps: { size: 'lg' },
       styles: () => ({
+        '&:hover': {
+          backgroundColor: 'blue',
+        },
+
         label: {
           fontWeight: 500,
         },

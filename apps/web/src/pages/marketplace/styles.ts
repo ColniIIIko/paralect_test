@@ -27,4 +27,44 @@ export const useStyles = createStyles((theme) => ({
   selectRightSection: {
     display: 'none',
   },
+
+  grid: {
+    display: 'grid',
+    gap: 20,
+    gridTemplateColumns: 'repeat(auto-fit, minmax(308px, 1fr))',
+    justifyItems: 'center',
+
+    '&:has(> div:first-child:nth-last-child(2))': {
+      gridTemplateColumns: 'repeat(auto-fit, 308px)',
+    },
+
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      '&:has(> div:first-child:nth-last-child(2))': {
+        gridTemplateColumns: 'repeat(auto-fit, minmax(308px, 1fr))',
+      },
+    },
+
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      '&:has(> div:first-child:nth-last-child(2))': {
+        gridTemplateColumns: 'repeat(auto-fit, minmax(308px, 1fr))',
+      },
+    },
+  },
+
+  paginationControls: {
+    height: 32,
+    minWidth: 32,
+    border: `1px solid ${theme.colors.black[0]}`,
+    padding: 5,
+    borderRadius: 4,
+
+    '&[data-active=true]': {
+      backgroundColor: theme.colors.blue[5],
+      border: `1px solid ${theme.colors.blue[4]}`,
+
+      '&:not([data-disabled]):hover': {
+        backgroundColor: theme.colors.blue[7],
+      },
+    },
+  },
 }));
