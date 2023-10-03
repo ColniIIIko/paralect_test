@@ -14,17 +14,11 @@ const NavTabs: FC<NavTabsProps> = ({ nav }: NavTabsProps) => {
   const { classes } = useStyles();
 
   const tabs = nav.map((navItem) => (
-    <Link
-      disabled
-      type="router"
-      href={navItem.route}
-      underline={false}
-      key={navItem.title}
-    >
+    <Link disabled type="router" href={navItem.route} underline={false} key={navItem.title}>
       <Button
         className={clsx({
           [classes.navTab]: true,
-          [classes.navTabActive]: route === navItem.route,
+          [classes.navTabActive]: `/${route.split('/')[1]}` === navItem.route,
         })}
         w={139}
         size="sm"
@@ -36,10 +30,7 @@ const NavTabs: FC<NavTabsProps> = ({ nav }: NavTabsProps) => {
   ));
 
   return (
-    <Group
-      m="auto"
-      spacing="xl"
-    >
+    <Group m="auto" spacing="xl">
       {tabs}
     </Group>
   );
