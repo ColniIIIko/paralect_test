@@ -1,4 +1,4 @@
-import { Container, Flex, Group, Input, Menu, Stack, Text } from '@mantine/core';
+import { Container, Flex, Grid, Group, Input, Menu, Stack, Text } from '@mantine/core';
 import { NextPage } from 'next';
 import { SearchIcon, SelectArrowIcon, SortIcon, XIcon } from 'public/icons';
 import { useState } from 'react';
@@ -19,7 +19,7 @@ const Marketplace: NextPage = () => {
   return (
     <Group spacing={28}>
       <Container
-        m={0}
+        m="0 0 auto"
         p="md"
         bg="white"
         sx={(theme) => ({ borderRadius: 12, border: `1px solid ${theme.colors.black[0]}` })}
@@ -116,7 +116,14 @@ const Marketplace: NextPage = () => {
             <SelectArrowIcon />
           </Group>
         </Flex>
-        <Flex gap={20} wrap="wrap">
+        <Grid
+          sx={{
+            display: 'grid',
+            gap: 20,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(308px, 1fr))',
+            justifyItems: 'start',
+          }}
+        >
           <ProductCard
             title="DJI Air 3"
             price={1158}
@@ -147,7 +154,7 @@ const Marketplace: NextPage = () => {
             price={1158}
             imgURL="https://images.unsplash.com/photo-1617109224926-b69d0862ef1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
           />
-        </Flex>
+        </Grid>
       </Stack>
     </Group>
   );
