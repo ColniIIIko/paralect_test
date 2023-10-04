@@ -60,7 +60,9 @@ const CreateProduct: NextPage = () => {
   const file = watch('file');
   return (
     <Stack>
-      <Title order={2}>Create new product</Title>
+      <Title order={2} weight={600} size="md">
+        Create new product
+      </Title>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <Stack spacing="md">
           <Group spacing="sm">
