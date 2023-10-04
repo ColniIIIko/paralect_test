@@ -128,7 +128,7 @@ const Marketplace: NextPage = () => {
             <Text size="md" weight={700}>
               Filters
             </Text>
-            <Group spacing={4} align="center" onClick={handleReset}>
+            <Group spacing={4} align="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
               <Text size="xs" c="black.2" weight={500}>
                 Reset All
               </Text>
@@ -193,7 +193,7 @@ const Marketplace: NextPage = () => {
             </Text>
             <Menu closeDelay={0}>
               <Menu.Target>
-                <Group spacing={8}>
+                <Group spacing={8} sx={{ cursor: 'pointer' }}>
                   <SortIcon />
                   <Text size="xs" weight={500}>
                     {`Sort by ${sortValue.label}`}
@@ -258,21 +258,23 @@ const Marketplace: NextPage = () => {
             />
           ))}
         </Grid>
-        <Center>
-          <Pagination
-            sx={{
-              fontSize: 16,
-              fontWeight: 400,
-            }}
-            classNames={{
-              control: classes.paginationControls,
-            }}
-            total={data?.totalPages || 1}
-            mt={10}
-            value={currentPage}
-            onChange={handlePage}
-          />
-        </Center>
+        {data?.count !== 0 && (
+          <Center>
+            <Pagination
+              sx={{
+                fontSize: 16,
+                fontWeight: 400,
+              }}
+              classNames={{
+                control: classes.paginationControls,
+              }}
+              total={data?.totalPages || 1}
+              mt={10}
+              value={currentPage}
+              onChange={handlePage}
+            />
+          </Center>
+        )}
       </Stack>
     </Group>
   );
