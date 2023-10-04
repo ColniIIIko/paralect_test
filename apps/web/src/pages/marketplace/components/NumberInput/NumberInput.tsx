@@ -2,7 +2,7 @@ import {
   NumberInput as NumberInputMantine,
   NumberInputProps as NumberInputPropsMantine,
 } from '@mantine/core';
-import { FC, ReactNode, useEffect, useRef, useState } from 'react';
+import { FC, ReactNode, memo, useEffect, useRef, useState } from 'react';
 import { useStyles } from './styles';
 
 interface NumberInputProps extends Omit<NumberInputPropsMantine, 'icon'> {
@@ -43,4 +43,4 @@ const NumberInput: FC<NumberInputProps> = ({ leftElement, leftGap, sx, ...props 
   );
 };
 
-export default NumberInput;
+export default memo(NumberInput);

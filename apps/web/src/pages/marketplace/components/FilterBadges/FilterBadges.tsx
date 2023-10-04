@@ -1,6 +1,6 @@
 import { ActionIcon, Badge, Group } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 interface FilterBadgesProps {
   badges: {
@@ -38,4 +38,4 @@ const FilterBadges: FC<FilterBadgesProps> = ({ badges }) => (
   </Group>
 );
 
-export default FilterBadges;
+export default memo(FilterBadges);

@@ -4,6 +4,7 @@ import {
   InputHTMLAttributes,
   MouseEvent,
   forwardRef,
+  memo,
   useCallback,
   useRef,
 } from 'react';
@@ -60,4 +61,4 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
   },
 );
 
-export default FileInput;
+export default memo(FileInput);
