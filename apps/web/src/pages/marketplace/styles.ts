@@ -43,12 +43,6 @@ export const useStyles = createStyles((theme) => ({
         gridTemplateColumns: 'repeat(auto-fit, minmax(308px, 1fr))',
       },
     },
-
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
-      '&:has(> div:first-child:nth-last-child(2))': {
-        gridTemplateColumns: 'repeat(auto-fit, minmax(308px, 1fr))',
-      },
-    },
   },
 
   paginationControls: {

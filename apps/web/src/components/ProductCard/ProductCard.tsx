@@ -1,5 +1,5 @@
 import { Box, Button, Container, Flex, Image, Text } from '@mantine/core';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { productTypes } from 'resources/product';
 import { useStyles } from './styles';
 
@@ -52,4 +52,4 @@ const ProductCard: FC<ProductCardProps> = ({ title, price, imgUrl }) => {
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

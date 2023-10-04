@@ -37,9 +37,22 @@ export function useImageUpload<T>() {
     imgURL: string;
   }
 
-  return useMutation<ImageUploadResponse, unknown, T>(upload, {
-    onSuccess: (data) => {
-      console.log(data);
-    },
-  });
+  return useMutation<ImageUploadResponse, unknown, T>(upload);
+}
+
+export function useUserProducts() {
+  const products = () => apiService.get('/users/products');
+
+  interface ProductListResponse {
+    count: number;
+    products: Product[];
+  }
+
+  return useQuery<ProductListResponse>('users/products', products);
+}
+
+export function useDelete() {
+  const deleteProduct = (productId: string) => apiService.delete(`products/${productId}`);
+
+  return useMutation(deleteProduct);
 }

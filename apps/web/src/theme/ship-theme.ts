@@ -9,6 +9,18 @@ const shipTheme: MantineThemeOverride = {
   },
   black: '#201f22',
   colors: {
+    white: [
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+      '#ffffff',
+    ],
     gray: [
       '#fcfcfc',
       '#f4f4f4',

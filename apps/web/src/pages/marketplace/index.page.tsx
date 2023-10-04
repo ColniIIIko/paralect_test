@@ -16,9 +16,9 @@ import { NextPage } from 'next';
 import { SearchIcon, SelectArrowIcon, SortIcon, XIcon } from 'public/icons';
 import { ChangeEvent, useCallback, useLayoutEffect, useState } from 'react';
 import { productApi } from 'resources/product';
+import ProductCard from '../../components/ProductCard/ProductCard';
 import FilterBadges from './components/FilterBadges/FilterBadges';
 import NumberInput from './components/NumberInput/NumberInput';
-import ProductCard from './components/ProductCard/ProductCard';
 import { useStyles } from './styles';
 
 interface ProductsListParams {
