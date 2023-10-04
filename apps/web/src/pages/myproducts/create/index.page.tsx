@@ -52,7 +52,7 @@ const CreateProduct: NextPage = () => {
         onError: (e) => handleError(e, setError),
         onSuccess: (product) => {
           reset();
-          showNotification({ message: `Product ${product.title} created` });
+          showNotification({ message: `Product "${product.title}" created`, color: 'green' });
         },
       },
     );
