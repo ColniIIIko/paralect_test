@@ -14,6 +14,8 @@ export enum RoutePath {
   Profile = '/profile',
   MyProducts = '/myproducts',
   CreateProduct = '/myproducts/create',
+  Cart = '/cart',
+  CartHistory = '/cart/history',
   // Auth paths
   SignIn = '/sign-in',
   SignUp = '/sign-up',
@@ -43,6 +45,14 @@ export const routesConfiguration: RoutesConfiguration = {
     layout: LayoutType.MAIN,
   },
   [RoutePath.CreateProduct]: {
+    scope: ScopeType.PRIVATE,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.Cart]: {
+    scope: ScopeType.PRIVATE,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.CartHistory]: {
     scope: ScopeType.PRIVATE,
     layout: LayoutType.MAIN,
   },

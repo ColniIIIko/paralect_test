@@ -1,3 +1,5 @@
+import { Product } from 'resources/product/product.types';
+
 export interface User {
   _id: string;
   createdOn?: Date;
@@ -7,4 +9,9 @@ export interface User {
   email: string;
   passwordHash: string;
   cartSize: number;
+
+  cart: {
+    product: Product;
+    quantity: number;
+  }[];
 }

@@ -3,9 +3,12 @@ import { FC, memo } from 'react';
 import { productTypes } from 'resources/product';
 import { useStyles } from './styles';
 
-interface ProductCardProps extends Omit<productTypes.Product, '_id' | 'createdBy' | 'createdOn'> {}
+interface ProductCardProps extends Omit<productTypes.Product, '_id' | 'createdBy' | 'createdOn'> {
+  onAction: () => void;
+  inCart: boolean;
+}
 
-const ProductCard: FC<ProductCardProps> = ({ title, price, imgUrl }) => {
+const ProductCard: FC<ProductCardProps> = ({ title, price, imgUrl, inCart, onAction }) => {
   const { classes } = useStyles();
   return (
     <Box
@@ -36,6 +39,7 @@ const ProductCard: FC<ProductCardProps> = ({ title, price, imgUrl }) => {
           <Text size="md" weight={700}>{`${price}$`}</Text>
         </Flex>
         <Button
+          disabled={inCart}
           mt={22}
           size="xs"
           sx={{ fontWeight: 500 }}
@@ -44,8 +48,9 @@ const ProductCard: FC<ProductCardProps> = ({ title, price, imgUrl }) => {
           c="white"
           className={classes.button}
           fullWidth
+          onClick={onAction}
         >
-          Add to Cart
+          {inCart ? 'In Cart' : 'Add to Cart'}
         </Button>
       </Container>
     </Box>

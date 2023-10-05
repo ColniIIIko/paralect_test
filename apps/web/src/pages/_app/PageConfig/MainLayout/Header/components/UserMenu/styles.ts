@@ -28,6 +28,7 @@ export const useStyles = createStyles((theme, { cartSize }: CartProps) => ({
   cartImage: {
     position: 'absolute',
     bottom: 0,
+    cursor: 'pointer',
 
     '&:hover': {
       filter:

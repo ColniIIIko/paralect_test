@@ -5,6 +5,11 @@ export const useStyles = createStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.colors.blue[7],
     },
+
+    '&:disabled': {
+      backgroundColor: theme.colors.blue[1],
+      color: 'white',
+    },
   },
 
   image: {

@@ -8,19 +8,8 @@ const shipTheme: MantineThemeOverride = {
     fontWeight: 700,
   },
   black: '#201f22',
+  white: '#ffffff',
   colors: {
-    white: [
-      '#ffffff',
-      '#ffffff',
-      '#ffffff',
-      '#ffffff',
-      '#ffffff',
-      '#ffffff',
-      '#ffffff',
-      '#ffffff',
-      '#ffffff',
-      '#ffffff',
-    ],
     gray: [
       '#fcfcfc',
       '#f4f4f4',
@@ -47,7 +36,7 @@ const shipTheme: MantineThemeOverride = {
     ],
     blue: [
       '#e5f4ff',
-      '#d1e3ff',
+      '#72a5f4;',
       '#a2c4f9',
       '#71a4f3',
       '#5e96fc',

@@ -63,56 +63,56 @@ const MyProducts: NextPage = () => {
           </Link>
         </Grid>
         {productList?.products
-          && productList.products.length !== 0
-          && productList?.products?.map((product) => (
-            <Card
-              p={16}
-              key={product._id}
-              radius={12}
-              sx={(theme) => ({
-                border: `1px solid ${theme.colors.black[0]}`,
-              })}
-              h={266}
-              w={271}
+        && productList.products.length !== 0
+        && productList?.products?.map((product) => (
+          <Card
+            p={16}
+            key={product._id}
+            radius={12}
+            sx={(theme) => ({
+              border: `1px solid ${theme.colors.black[0]}`,
+            })}
+            h={266}
+            w={271}
+          >
+            <Card.Section
+              sx={{
+                position: 'relative',
+              }}
             >
-              <Card.Section
-                sx={{
-                  position: 'relative',
-                }}
+              <Image
+                width={280}
+                height={174}
+                src={product.imgUrl}
+                alt={product.title}
+                fit="cover"
+              />
+              <ActionIcon
+                loading={isDeleting}
+                variant="filled"
+                size={32}
+                radius={8}
+                bg="white"
+                sx={{ position: 'absolute', right: 16, top: 16 }}
+                onClick={() => handleDelete(product._id)}
+                loaderProps={{ color: 'black.2' }}
               >
-                <Image
-                  width={280}
-                  height={174}
-                  src={product.imgUrl}
-                  alt={product.title}
-                  fit="cover"
-                />
-                <ActionIcon
-                  loading={isDeleting}
-                  variant="filled"
-                  size={32}
-                  radius={8}
-                  color="white"
-                  sx={{ position: 'absolute', right: 16, top: 16 }}
-                  onClick={() => handleDelete(product._id)}
-                  loaderProps={{ color: 'black.2' }}
-                >
-                  <IconTrash size={24} className={classes.trashIcon} />
-                </ActionIcon>
-              </Card.Section>
-              <Container p={0}>
-                <Text size="md" weight={700} mt={16}>
-                  {product.title}
+                <IconTrash size={24} className={classes.trashIcon} />
+              </ActionIcon>
+            </Card.Section>
+            <Container p={0}>
+              <Text size="md" weight={700} mt={16}>
+                {product.title}
+              </Text>
+              <Flex mt={12} justify="space-between" align="center">
+                <Text size="xs" c="black.2" weight={500}>
+                  Price:
                 </Text>
-                <Flex mt={12} justify="space-between" align="center">
-                  <Text size="xs" c="black.2" weight={500}>
-                    Price:
-                  </Text>
-                  <Text size="md" weight={700}>{`${product.price}$`}</Text>
-                </Flex>
-              </Container>
-            </Card>
-          ))}
+                <Text size="md" weight={700}>{`${product.price}$`}</Text>
+              </Flex>
+            </Container>
+          </Card>
+        ))}
       </Grid>
     </Stack>
   );

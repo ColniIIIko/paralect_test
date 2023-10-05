@@ -1,3 +1,4 @@
+import { productSchema } from 'resources/products';
 import { z } from 'zod';
 
 const schema = z
@@ -19,6 +20,14 @@ const schema = z
     updatedOn: z.date().optional(),
     lastRequest: z.date().optional(),
     deletedOn: z.date().optional().nullable(),
+
+    cart: z
+      .array(z.object({
+        product: productSchema,
+        quantity: z.number().positive().default(1),
+      }))
+      .optional()
+      .default([]),
   })
   .strict();
 
