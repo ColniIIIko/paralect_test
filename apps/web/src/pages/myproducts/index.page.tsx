@@ -4,12 +4,13 @@ import { IconPlus, IconTrash } from '@tabler/icons-react';
 import { Link } from 'components';
 import { NextPage } from 'next';
 import { useCallback } from 'react';
-import { useDelete, useUserProducts } from 'resources/product/product.api';
+import { accountApi } from 'resources/account';
+import { useDelete } from 'resources/product/product.api';
 import { RoutePath } from 'routes';
 import { useStyles } from './styles';
 
 const MyProducts: NextPage = () => {
-  const { data: productList } = useUserProducts();
+  const { data: productList } = accountApi.useUserProducts();
   const { mutate: deleteProduct, isLoading: isDeleting } = useDelete();
   const { classes } = useStyles();
 

@@ -19,14 +19,13 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { accountApi } from 'resources/account';
-import { userApi } from 'resources/user';
 import { RoutePath } from 'routes';
 import { useStyles } from './styles';
 
 const Cart: NextPage = () => {
   const { data: account } = accountApi.useGet();
-  const { mutate: changeQuantity, isLoading: isQuantityChanging } = userApi.useCartAdd();
-  const { mutate: remove, isLoading: isRemoving } = userApi.useCartRemove();
+  const { mutate: changeQuantity, isLoading: isQuantityChanging } = accountApi.useCartAdd();
+  const { mutate: remove, isLoading: isRemoving } = accountApi.useCartRemove();
 
   const { route } = useRouter();
 

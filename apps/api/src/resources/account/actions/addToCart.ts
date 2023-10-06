@@ -1,8 +1,8 @@
 import { validateMiddleware } from 'middlewares';
 import { productService } from 'resources/products';
+import { userService } from 'resources/user';
 import { AppKoaContext, AppRouter } from 'types';
 import { z } from 'zod';
-import userService from '../user.service';
 
 const schema = z.object({
   productId: z.string(),

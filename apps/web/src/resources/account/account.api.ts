@@ -3,6 +3,7 @@ import { useMutation, useQuery } from 'react-query';
 import queryClient from 'query-client';
 import { apiService } from 'services';
 
+import { productTypes } from 'resources/product';
 import { userTypes } from 'resources/user';
 
 export function useSignIn<T>() {
@@ -86,4 +87,35 @@ export function useRemoveAvatar() {
       queryClient.setQueryData(['account'], data);
     },
   });
+}
+
+export function useCartAdd<T>() {
+  const addToCart = (data: T) => apiService.post('/account/cart', data);
+
+  return useMutation<userTypes.User, unknown, T>(addToCart, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(['account'], data);
+    },
+  });
+}
+
+export function useCartRemove() {
+  const removeFromCart = (productId: string) => apiService.delete('/account/cart', { productId });
+
+  return useMutation<userTypes.User, unknown, string>(removeFromCart, {
+    onSuccess: (data) => {
+      queryClient.setQueryData(['account'], data);
+    },
+  });
+}
+
+export function useUserProducts() {
+  const products = () => apiService.get('/account/products');
+
+  interface ProductListResponse {
+    count: number;
+    products: productTypes.Product[];
+  }
+
+  return useQuery<ProductListResponse>('account/products', products);
 }

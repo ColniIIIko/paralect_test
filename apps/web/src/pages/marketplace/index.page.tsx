@@ -17,7 +17,6 @@ import { SearchIcon, SelectArrowIcon, SortIcon, XIcon } from 'public/icons';
 import { ChangeEvent, useCallback, useLayoutEffect, useState } from 'react';
 import { accountApi } from 'resources/account';
 import { productApi } from 'resources/product';
-import { useCartAdd } from 'resources/user/user.api';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import FilterBadges from './components/FilterBadges/FilterBadges';
 import NumberInput from './components/NumberInput/NumberInput';
@@ -76,7 +75,7 @@ const Marketplace: NextPage = () => {
   const [priceFilter, setPriceFilter] = useState<PriceRange>([null, null]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { mutate: addToCart } = useCartAdd();
+  const { mutate: addToCart } = accountApi.useCartAdd();
   const { data: account } = accountApi.useGet();
 
   const handleSort = useCallback((sortParam: SortParams) => {
