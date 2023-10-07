@@ -1,7 +1,7 @@
 import { Next, Request } from 'koa';
 import { validateMiddleware } from 'middlewares';
 import { userService } from 'resources/user';
-import { cloudStorageService } from 'services';
+import { cloudStorageService, stripeService } from 'services';
 import { AppKoaContext, AppRouter } from 'types';
 import { z } from 'zod';
 import productsService from '../products.service';
@@ -40,6 +40,7 @@ async function handler(ctx: AppKoaContext<ValidatedData, Request>) {
       { $pull: { cart: { product: deletedProduct } } },
     ),
     cloudStorageService.remove(deletedProduct.imgUrl),
+    stripeService.products.del(id),
   ]);
 
   ctx.body = deletedProduct;

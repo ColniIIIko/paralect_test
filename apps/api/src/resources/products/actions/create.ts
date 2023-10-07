@@ -1,6 +1,6 @@
 import { Next, Request } from 'koa';
 import { validateMiddleware } from 'middlewares';
-import { cloudStorageService } from 'services';
+import { cloudStorageService, stripeService } from 'services';
 import { AppKoaContext, AppRouter } from 'types';
 import { z } from 'zod';
 import productsService from '../products.service';
@@ -30,6 +30,11 @@ async function handler(ctx: AppKoaContext<ValidatedData, Request>) {
     createdBy: ctx.state.user._id,
     createdOn: new Date(),
     imgUrl,
+  });
+
+  await stripeService.products.create({
+    id: createdProduct._id,
+    name: title,
   });
 
   ctx.body = createdProduct;

@@ -3,6 +3,7 @@ import { routeUtil } from 'utils';
 import addToCart from './actions/addToCart';
 import get from './actions/get';
 import getProducts from './actions/getProducts';
+import proceedToCheckout from './actions/proceedToCheckout';
 import removeFromCart from './actions/removeFromCart';
 import shadowLogin from './actions/shadow-login';
 import signIn from './actions/sign-in';
@@ -13,7 +14,14 @@ import verifyResetToken from './actions/verify-reset-token';
 
 const publicRoutes = routeUtil.getRoutes([signUp, signIn, signOut, verifyResetToken]);
 
-const privateRoutes = routeUtil.getRoutes([get, update, addToCart, getProducts, removeFromCart]);
+const privateRoutes = routeUtil.getRoutes([
+  get,
+  update,
+  addToCart,
+  getProducts,
+  removeFromCart,
+  proceedToCheckout,
+]);
 
 const adminRoutes = routeUtil.getRoutes([shadowLogin]);
 

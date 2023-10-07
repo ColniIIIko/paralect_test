@@ -250,16 +250,16 @@ const Marketplace: NextPage = () => {
         </Stack>
         <Grid m={0} className={classes.grid}>
           {isListLoading
-            && Array.from({ length: PER_PAGE }).map(() => (
-              <Skeleton radius={12} height={384} width={306} />
-            ))}
+          && Array.from({ length: PER_PAGE }).map(() => (
+            <Skeleton radius={12} height={384} width={306} />
+          ))}
           {data?.items.map((product) => (
             <ProductCard
               key={product._id}
               imgUrl={product.imgUrl}
               title={product.title}
               price={product.price}
-              inCart={account?.cart.some((p) => p.product._id === product._id) || false}
+              inCart={account?.cart?.some((p) => p.product._id === product._id) || false}
               onAction={() => addToCart({ productId: product._id, quantity: 1 })}
             />
           ))}

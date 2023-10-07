@@ -119,3 +119,13 @@ export function useUserProducts() {
 
   return useQuery<ProductListResponse>('account/products', products);
 }
+
+export function useProceedCheckout() {
+  const proceedCheckout = () => apiService.post('account/cart/proceed-checkout', {}, {});
+
+  return useMutation<{ url: string }>(proceedCheckout, {
+    onSuccess: (data) => {
+      window.location.href = data.url;
+    },
+  });
+}

@@ -26,6 +26,7 @@ const Cart: NextPage = () => {
   const { data: account } = accountApi.useGet();
   const { mutate: changeQuantity, isLoading: isQuantityChanging } = accountApi.useCartAdd();
   const { mutate: remove, isLoading: isRemoving } = accountApi.useCartRemove();
+  const { mutate: proceedCheckout } = accountApi.useProceedCheckout();
 
   const { route } = useRouter();
 
@@ -155,7 +156,14 @@ const Cart: NextPage = () => {
                     {`$${account?.cart.reduce((acc, p) => acc + p.product.price * p.quantity, 0)}`}
                   </Text>
                 </Flex>
-                <Button fullWidth size="sm" bg="blue.5" radius={8} h={40}>
+                <Button
+                  fullWidth
+                  size="sm"
+                  bg="blue.5"
+                  radius={8}
+                  h={40}
+                  onClick={() => proceedCheckout()}
+                >
                   Proceed to Checkout
                 </Button>
               </Stack>
