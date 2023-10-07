@@ -1,3 +1,4 @@
 import ordersSchema from './orders.schema';
+import ordersService from './orders.service';
 
-export { ordersSchema };
+export { ordersSchema, ordersService };

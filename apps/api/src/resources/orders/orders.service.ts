@@ -6,3 +6,5 @@ import { Order } from './orders.type';
 const service = db.createService<Order>(DATABASE_DOCUMENTS.ORDERS, {
   schemaValidator: (obj) => schema.parseAsync(obj),
 });
+
+export default Object.assign(service, {});

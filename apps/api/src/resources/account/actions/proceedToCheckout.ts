@@ -14,6 +14,9 @@ async function handler(ctx: AppKoaContext) {
       },
       quantity: p.quantity,
     })),
+    metadata: {
+      userId: ctx.state.user._id,
+    },
     mode: 'payment',
     success_url: `${config.WEB_URL}/payment-success`,
     cancel_url: `${config.WEB_URL}/payment-error`,

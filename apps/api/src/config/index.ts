@@ -31,6 +31,7 @@ const schema = z.object({
   FIREBASE_SENDER_ID: z.string(),
   FIREBASE_APP_ID: z.string(),
   STRIPE_SECRET_KEY: z.string(),
+  STRIPE_WH_KEY: z.string(),
 });
 
 type Config = z.infer<typeof schema>;

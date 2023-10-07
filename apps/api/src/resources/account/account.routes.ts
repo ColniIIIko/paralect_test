@@ -2,6 +2,7 @@ import { routeUtil } from 'utils';
 
 import addToCart from './actions/addToCart';
 import get from './actions/get';
+import getOrdersHistory from './actions/getOrdersHistory';
 import getProducts from './actions/getProducts';
 import proceedToCheckout from './actions/proceedToCheckout';
 import removeFromCart from './actions/removeFromCart';
@@ -21,6 +22,7 @@ const privateRoutes = routeUtil.getRoutes([
   getProducts,
   removeFromCart,
   proceedToCheckout,
+  getOrdersHistory,
 ]);
 
 const adminRoutes = routeUtil.getRoutes([shadowLogin]);

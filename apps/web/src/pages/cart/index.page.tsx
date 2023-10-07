@@ -60,13 +60,13 @@ const Cart: NextPage = () => {
               My cart
             </Title>
           </Link>
-          <Link disabled type="router" href={RoutePath.CartHistory} underline={false}>
+          <Link disabled type="router" href={RoutePath.History} underline={false}>
             <Title
               order={2}
               weight={600}
               size="md"
               color="black.2"
-              className={clsx({ [classes.linkActive]: route === RoutePath.CartHistory })}
+              className={clsx({ [classes.linkActive]: route === RoutePath.History })}
             >
               History
             </Title>

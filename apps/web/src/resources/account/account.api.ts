@@ -121,11 +121,27 @@ export function useUserProducts() {
 }
 
 export function useProceedCheckout() {
-  const proceedCheckout = () => apiService.post('account/cart/proceed-checkout', {}, {});
+  const proceedCheckout = () => apiService.post('account/cart/proceed-checkout');
 
   return useMutation<{ url: string }>(proceedCheckout, {
     onSuccess: (data) => {
       window.location.href = data.url;
     },
   });
+}
+
+export function useOrdersHistory() {
+  const list = () => apiService.get('account/orders');
+
+  interface OrdersHistoryResponse {
+    orders: {
+      products: {
+        product: productTypes.Product;
+        quantity: number;
+      }[];
+      date: string;
+    }[];
+  }
+
+  return useQuery<OrdersHistoryResponse>(['account/orders'], list);
 }
