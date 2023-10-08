@@ -15,10 +15,8 @@ import requestLogger from 'koa-logger';
 import qs from 'koa-qs';
 
 import config from 'config';
-import ioEmitter from 'io-emitter';
 import logger from 'logger';
 import routes from 'routes';
-import { socketService } from 'services';
 import { AppKoa } from 'types';
 
 const initKoa = () => {
@@ -48,8 +46,6 @@ const app = initKoa();
 
 (async () => {
   const server = http.createServer(app.callback());
-
-  await Promise.all([ioEmitter.initClient(), socketService(server)]);
 
   server.listen(config.PORT, () => {
     logger.info(`API server is listening on ${config.PORT}, in ${config.APP_ENV} environment`);
