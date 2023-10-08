@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: test_task-api
+    name: api.test_task
     runtime: docker
     plan: free
     dockerfilePath: apps/api/Dockerfile
@@ -8,7 +8,7 @@ services:
       paths:
         - apps/api/**
   - type: web
-    name: test_task-web
+    name: web.test_task
     runtime: docker
     plan: free
     dockerfilePath: apps/web/Dockerfile
