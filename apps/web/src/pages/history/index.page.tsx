@@ -1,4 +1,16 @@
-import { Button, Center, Flex, Group, Image, Stack, Table, Text, Title, clsx } from '@mantine/core';
+import {
+  Button,
+  Center,
+  Flex,
+  Group,
+  Image,
+  MediaQuery,
+  Stack,
+  Table,
+  Text,
+  Title,
+  clsx,
+} from '@mantine/core';
 import { Link } from 'components';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -37,25 +49,29 @@ const CartHistory: NextPage = () => {
           </Link>
         </Group>
         {data?.orders?.length ? (
-          <Table maw="70%" sx={{ flexGrow: 1, height: 'max-content' }}>
+          <Table maw="70%" className={classes.table}>
             <thead>
-              <th className={classes.th}>Item</th>
-              <th className={classes.th}>Unit Price</th>
-              <th className={classes.th}>Quantity</th>
-              <th className={classes.th}>Date</th>
+              <tr>
+                <th className={classes.th}>Item</th>
+                <th className={classes.th}>Unit Price</th>
+                <th className={classes.th}>Quantity</th>
+                <th className={classes.th}>Date</th>
+              </tr>
             </thead>
             {data?.orders.map(({ products, date }) => products.map(({ product, quantity }) => (
               <tr key={product._id} className={classes.tr}>
                 <td>
                   <Group spacing={25}>
-                    <Image
-                      height={80}
-                      width={80}
-                      fit="cover"
-                      src={product.imgUrl}
-                      alt={product.title}
-                      radius={8}
-                    />
+                    <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+                      <Image
+                        height={80}
+                        width={80}
+                        fit="cover"
+                        src={product.imgUrl}
+                        alt={product.title}
+                        radius={8}
+                      />
+                    </MediaQuery>
                     <Text weight={700} size="sm">
                       {product.title}
                     </Text>
@@ -70,7 +86,7 @@ const CartHistory: NextPage = () => {
                   </Text>
                 </td>
                 <td style={{ textAlign: 'right' }}>
-                  <Text weight={400} size="sm">
+                  <Text weight={400} size="sm" className={classes.tdDate}>
                     {new Date(date).toISOString().split('T')[0]}
                   </Text>
                 </td>

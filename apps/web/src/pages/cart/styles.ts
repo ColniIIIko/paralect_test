@@ -1,14 +1,36 @@
 import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => ({
+  flex: {
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      flexDirection: 'column-reverse',
+    },
+  },
+
+  table: {
+    '&>thead>tr>th': {
+      borderBottom: 'none',
+      fontSize: theme.fontSizes.sm,
+      fontWeight: 400,
+      color: theme.colors.black[3],
+      padding: '12px 6px',
+      textAlign: 'right',
+    },
+
+    [`@media (max-width: ${theme.breakpoints.lg})`]: {
+      maxWidth: '100%',
+    },
+  },
+
   th: {
     textAlign: 'right',
     fontSize: theme.fontSizes.sm,
     fontWeight: 400,
     color: theme.colors.black[3],
     padding: '12px 0',
+    border: 'none',
 
-    '&:first-child': {
+    '&:first-of-type': {
       textAlign: 'left',
     },
   },
@@ -16,19 +38,15 @@ export const useStyles = createStyles((theme) => ({
   tr: {
     borderBottom: `1px solid ${theme.colors.black[1]}`,
 
-    '& > td': {
-      padding: '16px 0',
-    },
-
-    '&:nth-child(2) > td': {
+    '&:first-of-type > td': {
       paddingTop: 0,
     },
 
-    '&:last-child > td': {
+    '&:last-of-type > td': {
       paddingBottom: 0,
     },
 
-    '&:last-child': {
+    '&:last-of-type': {
       borderBottom: 'none',
     },
   },
@@ -53,6 +71,17 @@ export const useStyles = createStyles((theme) => ({
   quantityIcon: {
     color: theme.colors.black[1],
     cursor: 'pointer',
+
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      width: 18,
+      height: 18,
+    },
+  },
+
+  quantityGroup: {
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      gap: 0,
+    },
   },
 
   linkActive: {

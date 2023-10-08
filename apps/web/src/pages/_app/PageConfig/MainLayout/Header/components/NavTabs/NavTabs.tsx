@@ -1,7 +1,6 @@
 import { Button, Group, clsx } from '@mantine/core';
-import { Link } from 'components';
 import { useRouter } from 'next/router';
-import { FC, memo } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { RoutePath } from 'routes';
 import { useStyles } from './styles';
 
@@ -10,27 +9,34 @@ interface NavTabsProps {
 }
 
 const NavTabs: FC<NavTabsProps> = ({ nav }: NavTabsProps) => {
-  const { route } = useRouter();
+  const { route, push } = useRouter();
   const { classes } = useStyles();
 
+  const handleNavigate = useCallback(
+    (router: RoutePath) => {
+      push(router);
+    },
+    [push],
+  );
+
   const tabs = nav.map((navItem) => (
-    <Link disabled type="router" href={navItem.route} underline={false} key={navItem.title}>
-      <Button
-        className={clsx({
-          [classes.navTab]: true,
-          [classes.navTabActive]: `/${route.split('/')[1]}` === navItem.route,
-        })}
-        w={139}
-        size="sm"
-        radius={20}
-      >
-        {navItem.title}
-      </Button>
-    </Link>
+    <Button
+      key={navItem.title}
+      className={clsx({
+        [classes.navTab]: true,
+        [classes.navTabActive]: `/${route.split('/')[1]}` === navItem.route,
+      })}
+      w={139}
+      size="sm"
+      radius={20}
+      onClick={() => handleNavigate(navItem.route)}
+    >
+      {navItem.title}
+    </Button>
   ));
 
   return (
-    <Group m="auto" spacing="xl">
+    <Group className={classes.group} m="auto">
       {tabs}
     </Group>
   );

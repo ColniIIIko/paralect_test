@@ -15,7 +15,7 @@ const UserMenu: FC = () => {
   const { classes } = useStyles({ cartSize: cartSize || 0 });
 
   return (
-    <Group spacing="xl">
+    <Group className={classes.group}>
       <Link type="router" href={RoutePath.Cart}>
         <Box className={classes.cart} h={40} w={40}>
           <Image className={classes.cartImage} src="../icons/cart.svg" alt="cart" width={34} />
@@ -27,6 +27,7 @@ const UserMenu: FC = () => {
         onClick={() => signOut()}
         height={40}
         width={40}
+        style={{ cursor: 'pointer' }}
       />
     </Group>
   );

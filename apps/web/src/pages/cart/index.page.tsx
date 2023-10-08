@@ -7,6 +7,7 @@ import {
   Flex,
   Group,
   Image,
+  MediaQuery,
   Stack,
   Table,
   Text,
@@ -73,68 +74,84 @@ const Cart: NextPage = () => {
           </Link>
         </Group>
         {account?.cart?.length ? (
-          <Flex justify="space-between" gap="md">
-            <Table maw="70%" sx={{ flexGrow: 1, height: 'max-content' }}>
+          <Flex justify="space-between" gap="md" className={classes.flex}>
+            <Table maw="70%" verticalSpacing={16} horizontalSpacing={0} className={classes.table}>
               <thead>
-                <th className={classes.th}>Item</th>
-                <th className={classes.th}>Unit Price</th>
-                <th className={classes.th}>Quantity</th>
-                <th> </th>
-              </thead>
-              {account.cart.map(({ product, quantity }) => (
-                <tr key={product._id} className={classes.tr}>
-                  <td>
-                    <Group spacing={25}>
-                      <Image
-                        height={80}
-                        width={80}
-                        fit="cover"
-                        src={product.imgUrl}
-                        alt={product.title}
-                        radius={8}
-                      />
-                      <Text weight={700} size="sm">
-                        {product.title}
-                      </Text>
-                    </Group>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <Text weight={400} size="sm">{`$${product.price}`}</Text>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <Group spacing={12} position="right" align="center">
-                      <ActionIcon
-                        disabled={quantity === 1 || isQuantityChanging || isRemoving}
-                        sx={{ ':disabled': { background: 'none', border: 'none' } }}
-                        onClick={() => handleQuantityChange(product._id, -1)}
-                      >
-                        <IconMinus size={24} className={classes.quantityIcon} />
-                      </ActionIcon>
-                      <Text weight={400} size="sm" align="center" sx={{ width: 16 }}>
-                        {quantity}
-                      </Text>
-                      <ActionIcon
-                        disabled={isQuantityChanging || isRemoving}
-                        sx={{ ':disabled': { background: 'none', border: 'none' } }}
-                        onClick={() => handleQuantityChange(product._id, 1)}
-                      >
-                        <IconPlus size={24} className={classes.quantityIcon} />
-                      </ActionIcon>
-                    </Group>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <Button
-                      className={classes.removeButton}
-                      disabled={isQuantityChanging || isRemoving}
-                      sx={{ ':disabled': { background: 'none' } }}
-                      onClick={() => handleRemove(product._id)}
-                    >
-                      <IconX size={20} className={classes.removeIcon} />
-                      Remove
-                    </Button>
-                  </td>
+                <tr>
+                  <th className={classes.th}>Item</th>
+                  <th className={classes.th}>Unit Price</th>
+                  <th className={classes.th}>Quantity</th>
+                  <th> </th>
                 </tr>
-              ))}
+              </thead>
+              <tbody>
+                {account.cart.map(({ product, quantity }) => (
+                  <tr key={product._id} className={classes.tr}>
+                    <td>
+                      <Group spacing={25}>
+                        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+                          <Image
+                            height={80}
+                            width={80}
+                            fit="cover"
+                            src={product.imgUrl}
+                            alt={product.title}
+                            radius={8}
+                          />
+                        </MediaQuery>
+                        <Text weight={700} size="sm">
+                          {product.title}
+                        </Text>
+                      </Group>
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      <Text weight={400} size="sm">{`$${product.price}`}</Text>
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      <Group
+                        spacing={12}
+                        position="right"
+                        align="center"
+                        className={classes.quantityGroup}
+                        noWrap
+                      >
+                        <ActionIcon
+                          disabled={quantity === 1 || isQuantityChanging || isRemoving}
+                          sx={{ ':disabled': { background: 'none', border: 'none' } }}
+                          onClick={() => handleQuantityChange(product._id, -1)}
+                          size={24}
+                        >
+                          <IconMinus size={24} className={classes.quantityIcon} />
+                        </ActionIcon>
+                        <Text weight={400} size="sm" align="center" sx={{ width: 16 }}>
+                          {quantity}
+                        </Text>
+                        <ActionIcon
+                          disabled={isQuantityChanging || isRemoving}
+                          sx={{ ':disabled': { background: 'none', border: 'none' } }}
+                          onClick={() => handleQuantityChange(product._id, 1)}
+                          size={24}
+                        >
+                          <IconPlus size={24} className={classes.quantityIcon} />
+                        </ActionIcon>
+                      </Group>
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      <Button
+                        className={classes.removeButton}
+                        disabled={isQuantityChanging || isRemoving}
+                        sx={{ ':disabled': { background: 'none' } }}
+                        onClick={() => handleRemove(product._id)}
+                      >
+                        <IconX size={20} className={classes.removeIcon} />
+                        <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+                          <Text>Remove</Text>
+                        </MediaQuery>
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </Table>
             <Container
               m="0 0 auto"

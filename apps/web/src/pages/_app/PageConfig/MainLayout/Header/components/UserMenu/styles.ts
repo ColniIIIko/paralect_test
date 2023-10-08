@@ -35,4 +35,15 @@ export const useStyles = createStyles((theme, { cartSize }: CartProps) => ({
         'invert(37%) sepia(78%) saturate(2657%) hue-rotate(204deg) brightness(96%) contrast(92%)',
     },
   },
+
+  group: {
+    gap: 32,
+
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      gap: 16,
+      padding: '8px 0',
+      justifyContent: 'center',
+      width: 40,
+    },
+  },
 }));

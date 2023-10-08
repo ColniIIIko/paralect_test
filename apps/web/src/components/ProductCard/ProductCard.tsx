@@ -26,7 +26,7 @@ const ProductCard: FC<ProductCardProps> = ({ title, price, imgUrl, inCart, onAct
         classNames={{
           image: classes.image,
         }}
-        fit="contain"
+        fit="cover"
       />
       <Container p="16px 18px">
         <Text size="md" weight={700}>

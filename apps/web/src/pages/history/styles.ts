@@ -1,16 +1,36 @@
 import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => ({
+  table: {
+    '&>thead>tr>th': {
+      borderBottom: 'none',
+      fontSize: theme.fontSizes.sm,
+      fontWeight: 400,
+      color: theme.colors.black[3],
+      padding: '12px 6px',
+      textAlign: 'right',
+    },
+
+    [`@media (max-width: ${theme.breakpoints.lg})`]: {
+      maxWidth: '100%',
+    },
+  },
+
   th: {
     textAlign: 'right',
     fontSize: theme.fontSizes.sm,
     fontWeight: 400,
     color: theme.colors.black[3],
     padding: '12px 0',
+    border: 'none',
 
     '&:first-child': {
       textAlign: 'left',
     },
+  },
+
+  tdDate: {
+    textWrap: 'balance',
   },
 
   tr: {
