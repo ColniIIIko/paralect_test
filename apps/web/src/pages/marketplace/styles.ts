@@ -34,12 +34,12 @@ export const useStyles = createStyles((theme) => ({
     gridTemplateColumns: 'repeat(auto-fit, minmax(308px, 1fr))',
     justifyItems: 'center',
 
-    '&:has(> div:first-child:nth-last-child(2))': {
+    '&:has(> div:first-of-type:nth-last-of-type(2))': {
       gridTemplateColumns: 'repeat(auto-fit, 308px)',
     },
 
     [`@media (max-width: ${theme.breakpoints.md})`]: {
-      '&:has(> div:first-child:nth-last-child(2))': {
+      '&:has(> div:first-of-type:nth-last-of-type(2))': {
         gridTemplateColumns: 'repeat(auto-fit, minmax(308px, 1fr))',
       },
     },

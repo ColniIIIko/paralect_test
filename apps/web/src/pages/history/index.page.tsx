@@ -14,14 +14,20 @@ import {
 import { Link } from 'components';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useCallback } from 'react';
 import { accountApi } from 'resources/account';
 import { RoutePath } from 'routes';
 import { useStyles } from './styles';
 
 const CartHistory: NextPage = () => {
-  const { route } = useRouter();
+  const { route, push } = useRouter();
   const { classes } = useStyles();
   const { data } = accountApi.useOrdersHistory();
+
+  const handleGoToMarketplace = useCallback(() => {
+    push(RoutePath.Home);
+  }, [push]);
+
   return (
     <Flex justify="space-between">
       <Stack spacing={20} w="100%">
@@ -49,7 +55,7 @@ const CartHistory: NextPage = () => {
           </Link>
         </Group>
         {data?.orders?.length ? (
-          <Table maw="70%" className={classes.table}>
+          <Table maw="70%" verticalSpacing={16} horizontalSpacing={0} className={classes.table}>
             <thead>
               <tr>
                 <th className={classes.th}>Item</th>
@@ -58,40 +64,42 @@ const CartHistory: NextPage = () => {
                 <th className={classes.th}>Date</th>
               </tr>
             </thead>
-            {data?.orders.map(({ products, date }) => products.map(({ product, quantity }) => (
-              <tr key={product._id} className={classes.tr}>
-                <td>
-                  <Group spacing={25}>
-                    <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-                      <Image
-                        height={80}
-                        width={80}
-                        fit="cover"
-                        src={product.imgUrl}
-                        alt={product.title}
-                        radius={8}
-                      />
-                    </MediaQuery>
-                    <Text weight={700} size="sm">
-                      {product.title}
+            <tbody>
+              {data?.orders.map(({ products, date }) => products.map(({ product, quantity }) => (
+                <tr key={product._id} className={classes.tr}>
+                  <td>
+                    <Group spacing={25}>
+                      <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+                        <Image
+                          height={80}
+                          width={80}
+                          fit="cover"
+                          src={product.imgUrl}
+                          alt={product.title}
+                          radius={8}
+                        />
+                      </MediaQuery>
+                      <Text weight={700} size="sm">
+                        {product.title}
+                      </Text>
+                    </Group>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    <Text weight={400} size="sm">{`$${product.price}`}</Text>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    <Text weight={400} size="sm">
+                      {quantity}
                     </Text>
-                  </Group>
-                </td>
-                <td style={{ textAlign: 'right' }}>
-                  <Text weight={400} size="sm">{`$${product.price}`}</Text>
-                </td>
-                <td style={{ textAlign: 'right' }}>
-                  <Text weight={400} size="sm">
-                    {quantity}
-                  </Text>
-                </td>
-                <td style={{ textAlign: 'right' }}>
-                  <Text weight={400} size="sm" className={classes.tdDate}>
-                    {new Date(date).toISOString().split('T')[0]}
-                  </Text>
-                </td>
-              </tr>
-            )))}
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    <Text weight={400} size="sm" className={classes.tdDate}>
+                      {new Date(date).toISOString().split('T')[0]}
+                    </Text>
+                  </td>
+                </tr>
+              )))}
+            </tbody>
           </Table>
         ) : (
           <Center mt={20}>
@@ -105,13 +113,11 @@ const CartHistory: NextPage = () => {
                 <br />
                 Go to the marketplace and make purchases.
               </Text>
-              <Link type="router" href={RoutePath.Home} underline={false}>
-                <Button h={40} p="0 20px" bg="blue.5" radius={8}>
-                  <Text weight={500} size="xs">
-                    Go to Marketplace
-                  </Text>
-                </Button>
-              </Link>
+              <Button h={40} p="0 20px" bg="blue.5" radius={8} onClick={handleGoToMarketplace}>
+                <Text weight={500} size="xs">
+                  Go to Marketplace
+                </Text>
+              </Button>
             </Stack>
           </Center>
         )}

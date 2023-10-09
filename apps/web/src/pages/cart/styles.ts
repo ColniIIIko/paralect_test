@@ -8,6 +8,7 @@ export const useStyles = createStyles((theme) => ({
   },
 
   table: {
+    height: 'max-content',
     '&>thead>tr>th': {
       borderBottom: 'none',
       fontSize: theme.fontSizes.sm,

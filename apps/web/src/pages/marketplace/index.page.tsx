@@ -251,7 +251,7 @@ const Marketplace: NextPage = () => {
         <Grid m={0} className={classes.grid}>
           {isListLoading
           && Array.from({ length: PER_PAGE }).map(() => (
-            <Skeleton radius={12} height={384} width={306} />
+            <Skeleton key={Date.now() + Math.random()} radius={12} height={384} width={306} />
           ))}
           {data?.items.map((product) => (
             <ProductCard

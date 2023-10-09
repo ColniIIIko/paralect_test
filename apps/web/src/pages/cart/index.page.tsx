@@ -29,7 +29,7 @@ const Cart: NextPage = () => {
   const { mutate: remove, isLoading: isRemoving } = accountApi.useCartRemove();
   const { mutate: proceedCheckout } = accountApi.useProceedCheckout();
 
-  const { route } = useRouter();
+  const { route, push } = useRouter();
 
   const { classes } = useStyles();
 
@@ -46,6 +46,10 @@ const Cart: NextPage = () => {
     },
     [remove],
   );
+
+  const handleGoToMarketplace = useCallback(() => {
+    push(RoutePath.Home);
+  }, [push]);
 
   return (
     <Flex justify="space-between">
@@ -198,13 +202,11 @@ const Cart: NextPage = () => {
                 <br />
                 Go to the marketplace and make purchases.
               </Text>
-              <Link type="router" href={RoutePath.Home} underline={false}>
-                <Button h={40} p="0 20px" bg="blue.5" radius={8}>
-                  <Text weight={500} size="xs">
-                    Go to Marketplace
-                  </Text>
-                </Button>
-              </Link>
+              <Button h={40} p="0 20px" bg="blue.5" radius={8} onClick={handleGoToMarketplace}>
+                <Text weight={500} size="xs">
+                  Go to Marketplace
+                </Text>
+              </Button>
             </Stack>
           </Center>
         )}
