@@ -6,14 +6,12 @@ import getOrdersHistory from './actions/getOrdersHistory';
 import getProducts from './actions/getProducts';
 import proceedToCheckout from './actions/proceedToCheckout';
 import removeFromCart from './actions/removeFromCart';
-import shadowLogin from './actions/shadow-login';
 import signIn from './actions/sign-in';
 import signOut from './actions/sign-out';
 import signUp from './actions/sign-up';
 import update from './actions/update';
-import verifyResetToken from './actions/verify-reset-token';
 
-const publicRoutes = routeUtil.getRoutes([signUp, signIn, signOut, verifyResetToken]);
+const publicRoutes = routeUtil.getRoutes([signUp, signIn, signOut]);
 
 const privateRoutes = routeUtil.getRoutes([
   get,
@@ -25,7 +23,7 @@ const privateRoutes = routeUtil.getRoutes([
   getOrdersHistory,
 ]);
 
-const adminRoutes = routeUtil.getRoutes([shadowLogin]);
+const adminRoutes = routeUtil.getRoutes([]);
 
 export default {
   publicRoutes,
